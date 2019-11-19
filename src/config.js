@@ -13,11 +13,8 @@ dotenv.config();
 const config = {
   env: process.env.NODE_ENV,
   hostname: process.env.HOSTNAME,
+  secret: process.env.SECRET,
   port: process.env.PORT,
-  db: {
-    test: process.env.TEST_DATABASE_URL,
-    dev: process.env.DATABASE_URL,
-  },
   logs: {
     label: process.env.LOG_LABEL,
     level: process.env.LOG_LEVEL,
@@ -29,6 +26,12 @@ const config = {
   redis: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
+  },
+  rabbitmq: {
+    host: process.env.RABBITMQ_HOST,
+    port: process.env.RABBITMQ_PORT,
+    password: process.env.RABBITMQ_PASSWORD,
+    username: process.env.RABBITMQ_USERNAME,
   },
 };
 

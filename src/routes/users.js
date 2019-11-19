@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-const createUsersRoute = ({ usersController }) => {
+const createMessagessRoute = ({ usersController }) => {
   const router = Router();
-  router.get('/:id', usersController.getUser);
-  router.post('/', usersController.createUser);
+  router.post('/', usersController.authenticateUser);
   return router;
 };
-export default createUsersRoute;
+
+export default createMessagessRoute;

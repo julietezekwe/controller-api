@@ -1,46 +1,34 @@
 import autoBind from 'auto-bind';
 /**
-   * Creates an instance of UserController.
+   * Creates an instance of UsersController.
    */
 class UsersController {
   /**
-   * Creates an instance of UserController.
+   * Creates an instance of UsersController.
    * @param {object} param
    * @memberof UsersController
    */
-  constructor({ userService }) {
-    this.userService = userService;
+  constructor({ authToken }) {
+    this.authToken = authToken;
     autoBind(this);
   }
 
   /**
-   * Retrieves user details
+   * Sends message to pre-defined-users
    * @param {object} req
    * @param {object} res
    *@returns {object} - user
    */
-  async getUser(req, res) {
-    const { id } = req.params;
-    try {
-      const user = await this.userService.retrieveUser(id);
-      return res.status(200).json(user);
-    } catch (error) {
-      return res.json(error);
-    }
-  }
+  async authenticateUser(req, res) {
+    const { customer_id } = req.body;
 
-
-  /**
-   * Retrieves user details
-   * @param {object} req
-   * @param {object} res
-   *@returns {object} - user
-   */
-  async createUser(req, res) {
-    const { sex, age, name } = req.body;
     try {
-      const user = await this.userService.createAUser({ sex, age, name });
-      return res.status(200).json(user);
+      if (customer_id) {
+        const token = await this.authToken.generateToken({ customer_id }, '1hr');
+
+        return res.status(201).json({ success: true, message: 'Successfully authenticated this user', token });
+      }
+      return res.status(201).json({ success: false, message: 'Provide a user id' });
     } catch (error) {
       return res.json(error);
     }

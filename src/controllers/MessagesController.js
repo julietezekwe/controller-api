@@ -22,6 +22,12 @@ class MessagesController {
    */
   async sendMessage(req, res) {
     const { message, task_id, contact_list } = req.body;
+    if (!message || !task_id || !contact_list) {
+      return res.status(409).json({
+        success: false,
+        message: 'Please provide all the required fields [message, task_id, contact_list]',
+      });
+    }
     try {
       const addMessage = await this.messageService.queueMessage({
         message, task_id, contact_list, customer_id: req.customer_id,

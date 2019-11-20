@@ -24,7 +24,6 @@ class AuthToken {
 
   /**
    *Verfify Token Method
-   * @static
    * @param {object} req
    * @param {object} res
    * @param {object} next

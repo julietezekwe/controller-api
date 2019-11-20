@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind';
-import Queue from 'bull';
+import NRP from 'node-redis-pubsub';
 /**
    * Creates an instance of MessageService.
    */
@@ -11,9 +11,7 @@ class MessageService {
    */
   constructor({ config, logger }) {
     this.logger = logger;
-    this.queue = new Queue('newMessage', {
-      redis: config.redis,
-    });
+    this.pubsub = NRP({ ...config.redis, scope: 'controller' });
     autoBind(this);
   }
 
@@ -25,11 +23,12 @@ class MessageService {
   // eslint-disable-next-line class-methods-use-this
   async queueMessage(options) {
     try {
-      await this.queue.add(options);
+      this.pubsub.emit('message', options);
       return true;
     } catch (error) {
       throw error;
     }
   }
 }
+
 export default MessageService;

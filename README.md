@@ -1,5 +1,3 @@
-# Controller Microservice
-
 # Controller API Microservice
 
 ## Introduction
